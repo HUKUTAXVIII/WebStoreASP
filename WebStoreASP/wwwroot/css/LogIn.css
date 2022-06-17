@@ -1,0 +1,14 @@
+﻿form {
+    display: block;
+    width: 400px;
+    height: fit-content;
+    border: 1px solid black;
+    margin: 100px auto;
+}
+
+.container {
+    justify-content: center;
+    margin: auto;
+    padding: 10px;
+    flex-wrap: wrap;
+}

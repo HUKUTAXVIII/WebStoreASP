@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Book Page";
+}
+
+
+@using WebStoreASP.Models;
+@{
+    var prod = (List<Product>)ViewBag.Products;
+    var authors = (List<Author>)ViewBag.Authors;
+    var genres = (List<Genre>)ViewBag.Genres;
+    var publishers = (List<Publisher>)ViewBag.Publishers;
+
+    var Book = (Product)ViewBag.CurrentBook;
+
+}
+
+
+
+
+<main>
+        <div class="current-book">
+            <div class="cover"> </div>
+            
+            <div class="content">
+                <div class="info">
+                    @Book.name
+                </div>
+                <button>В Корзину</button>
+            </div>
+
+
+        </div>
+
+        <div class="similar">
+
+                @foreach(var item in prod){
+                    <div class="book">
+                        <div class="cover"> </div>
+                        
+                        <div class="name">@item.name</div>
+                        <div class="author">@authors.Where(a=>a.id==@item.author_id).First().name</div>
+                        <div class="publisher">@publishers.Where(p=>p.id==@item.publisher_id).First().name</div>
+
+                        <div class="price">@item.price</div>
+
+
+                        <a  href="Home/Book?id=@item.id"  id="@item.id"  name="id" value="@item.id"><button class="book-order" >КУПИТЬ</button></a>
+
+
+                    </div>
+                }
+
+
+        </div>
+
+
+    </main>
+
