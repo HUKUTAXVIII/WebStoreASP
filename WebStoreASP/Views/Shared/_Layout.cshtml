@@ -12,6 +12,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - WebStoreASP</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/WebStoreASP.styles.css" asp-append-version="true" />
+
+
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Index.css" asp-append-version="true" />
     @if (ViewData["Title"] == "Log In" || ViewData["Title"] == "Sign In")
@@ -22,11 +26,14 @@
     {
         <link rel="stylesheet" href="~/css/Profile.css" asp-append-version="true" />
     }
+     @if (ViewData["Title"] == "Cart")
+    {
+        <link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
+    }
 
 
    
 
-    <link rel="stylesheet" href="~/WebStoreASP.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -47,6 +54,9 @@
                         </li>
 
 
+                        <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Cart">Cart</a>
+                        </li>  
 
                         @if (UserName == string.Empty) { 
                             <li class="nav-item">
@@ -55,6 +65,7 @@
                         }
                         else
                         {
+                             
                              <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Profile">Profile</a>
                             </li>   

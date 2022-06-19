@@ -19,18 +19,21 @@
 
 <main>
         <div class="current-book">
-            <div class="cover"> </div>
+            <div class="cover-book"> </div>
             
-            <div class="content">
-                <div class="info">
+            <div class="content-book">
+                <div class="info-book">
                     @Book.name
                 </div>
-                <button>В Корзину</button>
+                <form method="post">
+                    <input type="text" value="@Book.id" name="id" style="display:none;"></input>
+                    <button type="submit">В Корзину</button>
+                </form>
             </div>
 
 
         </div>
-
+        <hr/>
         <div class="similar">
 
                 @foreach(var item in prod){

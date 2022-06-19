@@ -71,18 +71,18 @@ main {
     justify-content: space-between;
 }
 
-    .current-book .cover {
+    .current-book .cover-book {
         display: block;
         width: 600px;
         height: 900px;
         background-color: brown;
     }
 
-    .current-book .content {
+    .current-book .content-book {
         width: 400px;
     }
 
-        .current-book .content .info {
+        .current-book .content-book .info-book {
         }
 
         .current-book .content button {

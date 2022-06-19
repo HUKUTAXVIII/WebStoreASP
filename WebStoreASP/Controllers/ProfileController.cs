@@ -8,7 +8,7 @@ public static class UserOptions
 
     public static User user { set; get; }
     public static MySqlConnection conn { set; get; }
-
+    public static List<int> cart { set; get; }
 
     static UserOptions()
     {
@@ -16,6 +16,7 @@ public static class UserOptions
               + ";User Id=" + "a88ae9_shopdb" + ";password=" + "pass1234";
         conn = new MySqlConnection(connString);
         user = new User(0, "", "", "", "");
+        cart = new List<int>();
     }
 
 
@@ -65,11 +66,12 @@ public static class UserOptions
 
         conn.Open();
 
-            string sql = $"INSERT INTO `user`(`id`,`username`, `name`, `surname`, `password`) VALUES (1,'{username}','{name}','{surname}','{password}');";
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-            cmd.ExecuteNonQuery();
         try
         {
+            string sql = $"INSERT INTO `user`(`username`, `name`, `surname`, `password`) VALUES ('{username}','{name}','{surname}','{password}');";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.ExecuteNonQuery();
+
         }
         catch (Exception)
         {
@@ -85,6 +87,53 @@ public static class UserOptions
 
     }
 
+    public static void AddToCart(int book_id,int user_id) {
+        conn.Open();
+
+        string sql = $"INSERT INTO `cart`(`user_id`, `product_id`) VALUES ('{user_id}','{book_id}');";
+        MySqlCommand cmd = new MySqlCommand(sql, conn);
+        cmd.ExecuteNonQuery();
+
+        conn.Close();
+    }
+    public static void GetCart() {
+        conn.Open();
+
+        string sql = $"SELECT * FROM `cart` WHERE `user_id` = '{user.id}';";
+        MySqlCommand cmd = new MySqlCommand(sql, conn);
+        MySqlDataReader rdr = cmd.ExecuteReader();
+        cart = new List<int>();
+        while (rdr.Read())
+        {
+            int id = Convert.ToInt32(rdr["id"]);
+            int book_id = Convert.ToInt32(rdr["product_id"]);
+
+
+
+
+
+            cart.Add(book_id);
+
+
+
+        }
+
+
+
+        conn.Close();
+    }
+
+    public static void RemoveFromCart(int book_id,int user_id) {
+        conn.Open();
+        //DELETE FROM `cart` WHERE `product_id`=pf AND `user_id`=id;
+
+        string sql = $"DELETE FROM `cart` WHERE `product_id`={book_id} AND `user_id`={user_id};";
+        MySqlCommand cmd = new MySqlCommand(sql, conn);
+        cmd.ExecuteNonQuery();
+
+
+        conn.Close();
+    }
 
 
 }
@@ -120,6 +169,7 @@ namespace WebStoreASP.Controllers
         {
 
             if (UserOptions.GetUser(username, password)) {
+                UserOptions.GetCart();
                 return Redirect("/Home/Index");
             }
 
@@ -158,6 +208,21 @@ namespace WebStoreASP.Controllers
 
 
             return Redirect("/Profile/SignIn"); 
+        }
+
+
+        [HttpGet]
+        public IActionResult Cart() {
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Cart(int book_id)
+        {
+            UserOptions.RemoveFromCart(book_id,UserOptions.user.id);
+            UserOptions.GetCart();
+
+            return View();
         }
 
 

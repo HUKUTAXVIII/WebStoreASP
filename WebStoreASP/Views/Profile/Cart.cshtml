@@ -1,0 +1,42 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Cart";
+
+    
+
+    List<Product> list = DBBooks.products.Where((b)=>UserOptions.cart.Any((i)=>i==b.id)).ToList();
+
+    //foreach (var item in UserOptions.cart)
+    //{
+    //    list.Add(Option)
+
+    //}
+}
+
+
+
+        <div class="box">
+
+
+            @foreach(var prod in list){
+
+            <div class="card-box">
+                <div class="cover-box"> </div>
+                <div class="info-box">
+                    <div class="name-box">@prod.name</div>
+                    <div class="author-box">@prod.author_id</div>
+                </div>
+                <div class="price-box">@prod.price</div>
+                <form method="post">
+                    <input type="text" name="book_id" value="@prod.id" style="display:none;"></input>
+                    <button type="submit">X</button>
+                </form>
+
+            </div>
+
+            }
+
+
+        </div>

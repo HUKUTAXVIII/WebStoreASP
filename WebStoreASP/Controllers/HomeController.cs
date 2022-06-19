@@ -169,7 +169,7 @@ public static class DBBooks
 
 namespace WebStoreASP.Controllers
 {
-    
+
 
 
     public class HomeController : Controller
@@ -183,7 +183,7 @@ namespace WebStoreASP.Controllers
         {
             _logger = logger;
 
-          
+
 
 
 
@@ -191,7 +191,7 @@ namespace WebStoreASP.Controllers
 
         }
 
-        public IActionResult Index(string q="")
+        public IActionResult Index(string q = "")
         {
             if (q == null) {
                 q = string.Empty;
@@ -207,18 +207,42 @@ namespace WebStoreASP.Controllers
             ViewBag.Publishers = DBBooks.publishers;
 
             ViewBag.username = UserOptions.user.username;
-            
+
 
             return View();
         }
 
-
+        [HttpGet]
         public IActionResult Book(int id)
         {
 
         
             ViewBag.CurrentBook = DBBooks.products.Where(p=>p.id==id).First();
 
+
+            ViewBag.Products = DBBooks.products;
+            ViewBag.Categories = DBBooks.categories;
+            ViewBag.Genres = DBBooks.genres;
+            ViewBag.Authors = DBBooks.authors;
+            ViewBag.Publishers = DBBooks.publishers;
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Book(int id,int other=0)
+        {
+
+            //UserOptions.cart.Add(id);
+
+            UserOptions.AddToCart(id,UserOptions.user.id);
+
+            UserOptions.GetCart();
+
+
+
+
+            ViewBag.CurrentBook = DBBooks.products.Where(p => p.id == id).First();
 
             ViewBag.Products = DBBooks.products;
             ViewBag.Categories = DBBooks.categories;
