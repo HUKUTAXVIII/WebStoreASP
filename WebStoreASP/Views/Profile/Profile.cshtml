@@ -3,14 +3,18 @@
 *@
 @{
     ViewData["Title"] = "Profile";
+
+    User user = UserOptions.user;
+
 }
 
 
 <div class="container">
 
             <div class="info">
-                <p>Usernick: Nikita</p><br>
-                <p>Name: Nikita</p><br>
+                <p>Usernick: @user.username</p><br>
+                <p>Name: @user.name</p><br>
+                <p>Surame: @user.surname</p><br>
             </div>
             <a href="">Текущие заказы</a>
 
