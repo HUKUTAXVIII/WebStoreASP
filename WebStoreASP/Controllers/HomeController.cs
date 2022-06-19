@@ -216,7 +216,7 @@ namespace WebStoreASP.Controllers
         public IActionResult Book(int id)
         {
 
-        
+            ViewBag.username = UserOptions.user.username;
             ViewBag.CurrentBook = DBBooks.products.Where(p=>p.id==id).First();
 
 
@@ -232,7 +232,7 @@ namespace WebStoreASP.Controllers
         [HttpPost]
         public IActionResult Book(int id,int other=0)
         {
-
+            ViewBag.username = UserOptions.user.username;
             //UserOptions.cart.Add(id);
 
             UserOptions.AddToCart(id,UserOptions.user.id);

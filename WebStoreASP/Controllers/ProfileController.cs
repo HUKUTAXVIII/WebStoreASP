@@ -159,7 +159,7 @@ namespace WebStoreASP.Controllers
         }
         public IActionResult Profile()
         {
-            ViewBag.username = string.Empty;
+            ViewBag.username = UserOptions.user.username;
             return View();
         }
 
@@ -213,12 +213,13 @@ namespace WebStoreASP.Controllers
 
         [HttpGet]
         public IActionResult Cart() {
-
+            ViewBag.username = UserOptions.user.username;
             return View();
         }
         [HttpPost]
         public IActionResult Cart(int book_id)
         {
+            ViewBag.username = UserOptions.user.username;
             UserOptions.RemoveFromCart(book_id,UserOptions.user.id);
             UserOptions.GetCart();
 

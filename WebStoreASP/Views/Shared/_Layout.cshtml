@@ -54,9 +54,7 @@
                         </li>
 
 
-                        <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Cart">Cart</a>
-                        </li>  
+                       
 
                         @if (UserName == string.Empty) { 
                             <li class="nav-item">
@@ -66,6 +64,9 @@
                         else
                         {
                              
+                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Cart">Cart</a>
+                            </li>  
                              <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Profile">Profile</a>
                             </li>   
