@@ -23,7 +23,19 @@
             this.publisher_id = publisher_id;
             this.genre_id = genre_id;
             this.category_id = category_id;
-            this.cover_id = 2;
+            this.cover_id = 6;
+        }
+        public Product(int id, string name, float price, string description, int author_id, int publisher_id, int genre_id, int category_id,int cover_id)
+        {
+            this.id = id;
+            this.name = name;
+            this.price = price;
+            this.description = description;
+            this.author_id = author_id;
+            this.publisher_id = publisher_id;
+            this.genre_id = genre_id;
+            this.category_id = category_id;
+            this.cover_id = cover_id;
         }
 
     }

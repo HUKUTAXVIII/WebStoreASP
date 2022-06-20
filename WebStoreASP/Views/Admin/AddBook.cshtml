@@ -1,0 +1,74 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Home Page";
+}
+@using WebStoreASP.Models;
+@{
+    var prod = (List<Product>)ViewBag.Products;
+    var authors = (List<Author>)ViewBag.Authors;
+    var genres = (List<Genre>)ViewBag.Genres;
+    var publishers = (List<Publisher>)ViewBag.Publishers;
+    var categories = (List<Category>)ViewBag.Categories;
+
+    var covers = (List<Cover>)ViewBag.Covers;
+
+
+}
+
+
+
+<h1>Book</h1>
+<form asp-action="AddBook" asp-controller="Admin" method="post" enctype="multipart/form-data">
+    <input name="file" type="file" required>
+    <br/>
+    <label>Name:</label>
+    <input name="name" type="text" required>
+    <br/>
+    <label>Price:</label>
+    <input name="price" type="number" required>
+    <br/>
+    <label>Description:</label>
+    <input name="description" type="text" required>
+    <br/>
+    <label>Author:</label>
+    <select id="author" name="author">
+        @foreach (var item in authors)
+        {
+            <option value="@item.id">@item.name</option>
+            
+        }
+        
+    </select>
+    <br/>
+    <label>Publisher:</label>
+    <select id="publisher" name="publisher">
+        @foreach (var item in publishers)
+        {
+            <option value="@item.id">@item.name</option>
+            
+        }
+    </select>
+    <br/>
+    <label>Category:</label>
+    <select id="category" name="category">
+            @foreach (var item in categories)
+            {
+                <option value="@item.id">@item.name</option>
+            
+            }
+    </select>
+    <br/>
+    <label>Genre:</label>
+    <select id="genre" name="genre">
+            @foreach (var item in genres)
+            {
+                <option value="@item.id">@item.name</option>
+            
+            }
+    </select>
+
+    <br/>
+    <button type="submit" >Upload</button>
+</form>

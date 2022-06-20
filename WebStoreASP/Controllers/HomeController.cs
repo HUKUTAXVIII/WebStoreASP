@@ -42,10 +42,10 @@ public static class DBBooks
 
     public static void GetCategory() {
         conn.Open();
-
         string sql = "SELECT * FROM `category`;";
         MySqlCommand cmd = new MySqlCommand(sql, conn);
         MySqlDataReader rdr = cmd.ExecuteReader();
+        categories = new List<Category>();
 
         while (rdr.Read())
         {
@@ -66,7 +66,7 @@ public static class DBBooks
     public static void GetPublisher()
     {
         conn.Open();
-
+        publishers = new List<Publisher>();
         string sql = "SELECT * FROM `publisher`;";
         MySqlCommand cmd = new MySqlCommand(sql, conn);
         MySqlDataReader rdr = cmd.ExecuteReader();
@@ -94,7 +94,7 @@ public static class DBBooks
         string sql = "SELECT * FROM `author`;";
         MySqlCommand cmd = new MySqlCommand(sql, conn);
         MySqlDataReader rdr = cmd.ExecuteReader();
-
+        authors = new List<Author>();
         while (rdr.Read())
         {
             //Console.WriteLine(rdr[0] + " -- " + rdr[1]);
@@ -118,7 +118,7 @@ public static class DBBooks
         string sql = "SELECT * FROM `genre`;";
         MySqlCommand cmd = new MySqlCommand(sql, conn);
         MySqlDataReader rdr = cmd.ExecuteReader();
-
+        genres = new List<Genre>();
         while (rdr.Read())
         {
             //Console.WriteLine(rdr[0] + " -- " + rdr[1]);
@@ -142,7 +142,7 @@ public static class DBBooks
         string sql = "SELECT * FROM `cover`;";
         MySqlCommand cmd = new MySqlCommand(sql, conn);
         MySqlDataReader rdr = cmd.ExecuteReader();
-
+        covers = new List<Cover>();
         while (rdr.Read())
         {
             //Console.WriteLine(rdr[0] + " -- " + rdr[1]);
@@ -165,7 +165,7 @@ public static class DBBooks
 
     public static void GetProduct() {
         conn.Open();
-
+        products = new List<Product>();
         string sql = "SELECT * FROM `product`;";
         MySqlCommand cmd = new MySqlCommand(sql, conn);
         MySqlDataReader rdr = cmd.ExecuteReader();
@@ -181,9 +181,10 @@ public static class DBBooks
             int pub = Convert.ToInt32(rdr["publisher_id"]);
             int genre = Convert.ToInt32(rdr["genre_id"]);
             int cat = Convert.ToInt32(rdr["category_id"]);
+            int cover = Convert.ToInt32(rdr["cover_id"]);
 
 
-            products.Add(new Product(id, name, price, description, auth, pub, genre, cat));
+            products.Add(new Product(id, name, price, description, auth, pub, genre, cat,cover));
 
 
 
@@ -191,6 +192,162 @@ public static class DBBooks
 
         conn.Close();
 
+    }
+
+
+
+
+    public static void AddCover(string name,string type,byte[] content)
+    {
+        conn.Open();
+
+        byte[] data = content;
+
+        MySqlCommand command = new MySqlCommand($"INSERT INTO `cover`(`name`, `type`, `content`) VALUES ('{name}','{type}',@Data);", conn);
+        command.Parameters.AddWithValue("@Data",data);
+
+        command.ExecuteNonQuery();
+
+
+        conn.Close();
+        GetCover();
+    }
+    public static void AddBook(string name,float price,string description,int author_id,int publisher_id, int genre_id,int category_id,int cover_id) {
+
+        conn.Open();
+
+
+
+        MySqlCommand command = new MySqlCommand($"INSERT INTO `product`(`name`, `price`, `description`, `author_id`, `publisher_id`, `genre_id`, `category_id`, `cover_id`) VALUES ('{name}','{price}','{description}','{author_id}','{publisher_id}','{genre_id}','{category_id}','{cover_id}')", conn);
+
+        command.ExecuteNonQuery();
+
+        conn.Close();
+        GetProduct();
+
+    }
+
+    public static void AddAuthor(string name)
+    {
+
+        conn.Open();
+
+
+
+        MySqlCommand command = new MySqlCommand($"INSERT INTO `author`(`name`) VALUES ('{name}')", conn);
+
+        command.ExecuteNonQuery();
+
+        conn.Close();
+        GetAuthor();
+
+    }
+    public static void AddPublisher(string name)
+    {
+
+        conn.Open();
+
+
+
+        MySqlCommand command = new MySqlCommand($"INSERT INTO `publisher`(`name`) VALUES ('{name}')", conn);
+
+        command.ExecuteNonQuery();
+
+        conn.Close();
+        GetPublisher();
+
+    }
+    public static void AddGenre(string name)
+    {
+
+        conn.Open();
+
+
+
+        MySqlCommand command = new MySqlCommand($"INSERT INTO `genre`(`name`) VALUES ('{name}')", conn);
+
+        command.ExecuteNonQuery();
+
+        conn.Close();
+        GetGenre();
+
+    }
+    public static void AddCategory(string name)
+    {
+
+        conn.Open();
+
+
+
+        MySqlCommand command = new MySqlCommand($"INSERT INTO `category`(`name`) VALUES ('{name}')", conn);
+
+        command.ExecuteNonQuery();
+
+        conn.Close();
+        GetCategory();
+
+    }
+
+    public static void DeleteAuthor(int id) {
+        conn.Open();
+        MySqlCommand command = new MySqlCommand($"DELETE FROM `author` WHERE `id` = {id};", conn);
+
+        command.ExecuteNonQuery();
+        conn.Close();
+        GetAuthor();
+    }
+    public static void DeletePublisher(int id)
+    {
+        conn.Open();
+        MySqlCommand command = new MySqlCommand($"DELETE FROM `publisher` WHERE `id` = {id};", conn);
+
+        command.ExecuteNonQuery();
+        conn.Close();
+        GetPublisher();
+    }
+    public static void DeleteGenre(int id)
+    {
+        conn.Open();
+        MySqlCommand command = new MySqlCommand($"DELETE FROM `genre` WHERE `id` = {id};", conn);
+
+        command.ExecuteNonQuery();
+        conn.Close();
+        GetGenre();
+    }
+    public static void DeleteCategory(int id)
+    {
+        conn.Open();
+        MySqlCommand command = new MySqlCommand($"DELETE FROM `category` WHERE `id` = {id};", conn);
+
+        command.ExecuteNonQuery();
+        conn.Close();
+        GetCategory();
+    }
+
+
+
+
+    public static void DeleteBook(int id) {
+        conn.Open();
+        //SELECT * FROM `product` WHERE `id` = [id];
+        MySqlCommand command = new MySqlCommand($"DELETE FROM `product` WHERE `id` = {id};", conn);
+
+        command.ExecuteNonQuery();
+
+
+        conn.Close();
+        GetProduct();
+    }
+    public static void DeleteCover(int id)
+    {
+        conn.Open();
+        MySqlCommand command = new MySqlCommand($"DELETE FROM `cover` WHERE `id` = {id};", conn);
+
+        command.ExecuteNonQuery();
+
+
+        conn.Close();
+        GetCover();
     }
 
 
