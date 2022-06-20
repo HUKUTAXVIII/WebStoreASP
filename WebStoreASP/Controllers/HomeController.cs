@@ -12,6 +12,7 @@ public static class DBBooks
     public static List<Author> authors { get; set; }
     public static List<Publisher> publishers { get; set; }
     public static List<Genre> genres { get; set; }
+    public static List<Cover> covers { set; get; }
     public static MySqlConnection conn{set;get;}
     
     static DBBooks()
@@ -25,12 +26,14 @@ public static class DBBooks
         authors = new List<Author>();   
         publishers = new List<Publisher>();
         genres = new List<Genre>();
+        covers = new List<Cover>();
         
 
         GetCategory();
         GetPublisher();
         GetAuthor();
         GetGenre();
+        GetCover();
         GetProduct();
 
 
@@ -132,6 +135,34 @@ public static class DBBooks
 
         conn.Close();
     }
+    public static void GetCover()
+    {
+        conn.Open();
+
+        string sql = "SELECT * FROM `cover`;";
+        MySqlCommand cmd = new MySqlCommand(sql, conn);
+        MySqlDataReader rdr = cmd.ExecuteReader();
+
+        while (rdr.Read())
+        {
+            //Console.WriteLine(rdr[0] + " -- " + rdr[1]);
+            int id = Convert.ToInt32(rdr["id"]);
+            string name = rdr["name"].ToString();
+            string type = rdr["type"].ToString();
+            var data = (byte[])rdr["content"];
+            string content = "data:image/jpg;base64,"+Convert.ToBase64String(data,0,data.Length);
+
+
+
+            covers.Add(new Cover(id, name,type,content));
+
+
+
+        }
+
+        conn.Close();
+    }
+
     public static void GetProduct() {
         conn.Open();
 
@@ -204,6 +235,7 @@ namespace WebStoreASP.Controllers
             ViewBag.Categories = DBBooks.categories;
             ViewBag.Genres = DBBooks.genres;
             ViewBag.Authors = DBBooks.authors;
+            ViewBag.Covers = DBBooks.covers;
             ViewBag.Publishers = DBBooks.publishers;
 
             ViewBag.username = UserOptions.user.username;
@@ -224,6 +256,7 @@ namespace WebStoreASP.Controllers
             ViewBag.Categories = DBBooks.categories;
             ViewBag.Genres = DBBooks.genres;
             ViewBag.Authors = DBBooks.authors;
+            ViewBag.Covers = DBBooks.covers;
             ViewBag.Publishers = DBBooks.publishers;
 
             return View();
@@ -248,6 +281,7 @@ namespace WebStoreASP.Controllers
             ViewBag.Categories = DBBooks.categories;
             ViewBag.Genres = DBBooks.genres;
             ViewBag.Authors = DBBooks.authors;
+            ViewBag.Covers = DBBooks.covers;
             ViewBag.Publishers = DBBooks.publishers;
 
             return View();

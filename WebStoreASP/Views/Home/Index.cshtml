@@ -7,6 +7,12 @@
     var authors = (List<Author>)ViewBag.Authors;
     var genres = (List<Genre>)ViewBag.Genres;
     var publishers = (List<Publisher>)ViewBag.Publishers;
+
+    var covers = (List<Cover>)ViewBag.Covers;
+
+
+
+
 }
 
 @*<div class="products">
@@ -56,7 +62,8 @@
             <div class="books">
                 @foreach(var item in prod){
                     <div class="book">
-                        <div class="cover"> </div>
+                        @*<div class="cover"> </div>*@
+                        <img alt="" src="@covers.Find(c=>item.cover_id==c.id).content" class="cover"/>
                         
                         <div class="name">@item.name</div>
                         <div class="author">@authors.Where(a=>a.id==@item.author_id).First().name</div>

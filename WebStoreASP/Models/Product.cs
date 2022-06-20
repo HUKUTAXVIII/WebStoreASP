@@ -10,6 +10,7 @@
         public int publisher_id { set; get; }
         public int genre_id { set; get; }
         public int category_id{set;get;}
+        public int cover_id{set;get;}
 
 
         public Product(int id, string name, float price, string description, int author_id, int publisher_id,int genre_id, int category_id)
@@ -22,6 +23,7 @@
             this.publisher_id = publisher_id;
             this.genre_id = genre_id;
             this.category_id = category_id;
+            this.cover_id = 2;
         }
 
     }
