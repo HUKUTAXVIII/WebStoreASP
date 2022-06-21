@@ -386,6 +386,9 @@ namespace WebStoreASP.Controllers
                 q = string.Empty;
             }
 
+            //HttpContext.Session.SetString("Test","1");
+
+
 
 
 
@@ -471,7 +474,9 @@ namespace WebStoreASP.Controllers
 
             UserOptions.GetCart();
 
+            
 
+            //Session["user"] = 1;
 
 
             ViewBag.CurrentBook = DBBooks.products.Where(p => p.id == id).First();
