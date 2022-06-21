@@ -4,9 +4,9 @@
 @{
     ViewData["Title"] = "Cart";
 
-    
 
-    List<Product> list = DBBooks.products.Where((b)=>UserOptions.cart.Any((i)=>i==b.id)).ToList();
+
+    List<Product> list = (List<Product>)ViewBag.cartlist;
 
     //foreach (var item in UserOptions.cart)
     //{

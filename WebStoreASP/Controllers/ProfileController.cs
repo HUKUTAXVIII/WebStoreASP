@@ -1,33 +1,75 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using WebStoreASP.Models;
+using System.Diagnostics;
 
 
 public static class UserOptions
 {
 
-    public static User user { set; get; }
+    //public static User user { set; get; }
     public static MySqlConnection conn { set; get; }
-    public static List<int> cart { set; get; }
+    //public static List<int> cart { set; get; }
 
     static UserOptions()
     {
         string connString = "Server=" + "mysql8002.site4now.net" + ";Database=" + "db_a88ae9_shopdb"
               + ";User Id=" + "a88ae9_shopdb" + ";password=" + "pass1234";
         conn = new MySqlConnection(connString);
-        user = new User(0, "", "", "", "");
-        cart = new List<int>();
     }
 
 
-    public static bool GetUser(string login, string password) {
+    public static int GetUserID(string login, string password) {
         conn.Open();
-        bool result = true;
+        int result = -1;
         try
         {
 
         
             string sql = $"SELECT * FROM `user` WHERE `username` = '{login}' AND `password`='{password}';";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                int id = Convert.ToInt32(rdr["id"]);
+                //string username = rdr["username"].ToString();
+                //string name = rdr["name"].ToString();
+                //string surname = rdr["surname"].ToString();
+                //string pass = rdr["password"].ToString();
+
+
+                // user = new User(id,username,name,surname,pass);
+
+                result = id;
+                //HttpContext.Session.SetString("Test", "1");
+
+
+
+            }
+
+        }
+        catch (Exception)
+        {
+
+            result = -1;
+        }
+
+
+
+        conn.Close();
+
+        return result;
+    }
+    public static User GetUser(int user_id)
+    {
+        conn.Open();
+        User result = new User(0,"","");
+        try
+        {
+
+
+            string sql = $"SELECT * FROM `user` WHERE `id`={user_id};";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
@@ -40,9 +82,11 @@ public static class UserOptions
                 string pass = rdr["password"].ToString();
 
 
-                user = new User(id,username,name,surname,pass);
+                result = new User(id,username,name,surname,pass);
 
-                
+                //HttpContext.Session.SetString("Test", "1");
+
+
 
             }
 
@@ -50,7 +94,7 @@ public static class UserOptions
         catch (Exception)
         {
 
-            result = false;
+            
         }
 
 
@@ -96,13 +140,13 @@ public static class UserOptions
         
         conn.Close();
     }
-    public static void GetCart() {
+    public static List<int> GetCart(int user_id) {
         conn.Open();
 
-        string sql = $"SELECT * FROM `cart` WHERE `user_id` = '{user.id}';";
+        string sql = $"SELECT * FROM `cart` WHERE `user_id` = '{user_id}';";
         MySqlCommand cmd = new MySqlCommand(sql, conn);
         MySqlDataReader rdr = cmd.ExecuteReader();
-        cart = new List<int>();
+        List<int> cart = new List<int>();
         while (rdr.Read())
         {
             int id = Convert.ToInt32(rdr["id"]);
@@ -121,6 +165,10 @@ public static class UserOptions
 
 
         conn.Close();
+
+        return cart;
+
+
     }
 
     public static void RemoveFromCart(int book_id,int user_id) {
@@ -159,7 +207,11 @@ namespace WebStoreASP.Controllers
         }
         public IActionResult Profile()
         {
-            ViewBag.username = UserOptions.user.username;
+            User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+            ViewBag.username = user.username;
+
+            ViewBag.User = user;
+
             return View();
         }
 
@@ -167,9 +219,14 @@ namespace WebStoreASP.Controllers
         [HttpPost]
         public RedirectResult LogIn(string username, string password)
         {
+            int user_id = UserOptions.GetUserID(username, password);
+            if (user_id!=-1) {
 
-            if (UserOptions.GetUser(username, password)) {
-                UserOptions.GetCart();
+                HttpContext.Session.SetString("UserID",user_id.ToString());
+
+                
+
+
                 return Redirect("/Home/Index");
             }
 
@@ -213,15 +270,44 @@ namespace WebStoreASP.Controllers
 
         [HttpGet]
         public IActionResult Cart() {
-            ViewBag.username = UserOptions.user.username;
+
+            if (HttpContext.Session.GetString("UserID") != string.Empty)
+            {
+                ViewBag.username = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID"))).username;
+
+
+
+                ViewBag.cartlist = DBBooks.products.Where((b) => UserOptions.GetCart(int.Parse(HttpContext.Session.GetString("UserID"))).Any((i) => i == b.id)).ToList();
+
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
+
+
+
             return View();
         }
         [HttpPost]
         public IActionResult Cart(int book_id)
         {
-            ViewBag.username = UserOptions.user.username;
-            UserOptions.RemoveFromCart(book_id,UserOptions.user.id);
-            UserOptions.GetCart();
+            if (HttpContext.Session.GetString("UserID") != string.Empty)
+            {
+                ViewBag.username = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID"))).username;
+
+                UserOptions.RemoveFromCart(book_id, int.Parse(HttpContext.Session.GetString("UserID")));
+                ViewBag.cartlist = DBBooks.products.Where((b) => UserOptions.GetCart(int.Parse(HttpContext.Session.GetString("UserID"))).Any((i) => i == b.id)).ToList();
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
+
+
+            //UserOptions.GetCart();
 
             return View();
         }

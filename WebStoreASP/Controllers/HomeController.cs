@@ -387,7 +387,10 @@ namespace WebStoreASP.Controllers
             }
 
             //HttpContext.Session.SetString("Test","1");
-
+            if (HttpContext.Session.GetString("UserID") == null)
+            {
+                HttpContext.Session.SetString("UserID", "");
+            }
 
 
 
@@ -399,7 +402,7 @@ namespace WebStoreASP.Controllers
             ViewBag.Covers = DBBooks.covers;
             ViewBag.Publishers = DBBooks.publishers;
 
-            ViewBag.username = UserOptions.user.username;
+            ViewBag.username = HttpContext.Session.GetString("UserID");
 
             ViewBag.Aus = new List<string>();
             ViewBag.Cat = new List<string>();
@@ -413,6 +416,10 @@ namespace WebStoreASP.Controllers
         [HttpPost]
         public IActionResult Index(string[] category, string[] genre, string[] author, string[] publisher)
         {
+
+            if (HttpContext.Session.GetString("UserID") == null) {
+                HttpContext.Session.SetString("UserID","");
+            }
 
 
             var data_a = author.ToList();
@@ -438,7 +445,7 @@ namespace WebStoreASP.Controllers
             ViewBag.Covers = DBBooks.covers;
             ViewBag.Publishers = DBBooks.publishers;
 
-            ViewBag.username = UserOptions.user.username;
+            ViewBag.username = HttpContext.Session.GetString("UserID");
 
 
             return View();
@@ -450,7 +457,7 @@ namespace WebStoreASP.Controllers
         public IActionResult Book(int id)
         {
 
-            ViewBag.username = UserOptions.user.username;
+            ViewBag.username = HttpContext.Session.GetString("UserID");
             ViewBag.CurrentBook = DBBooks.products.Where(p=>p.id==id).First();
 
 
@@ -467,16 +474,16 @@ namespace WebStoreASP.Controllers
         [HttpPost]
         public IActionResult Book(int id,int other=0)
         {
-            ViewBag.username = UserOptions.user.username;
+            ViewBag.username = HttpContext.Session.GetString("UserID");
             //UserOptions.cart.Add(id);
 
-            UserOptions.AddToCart(id,UserOptions.user.id);
-
-            UserOptions.GetCart();
+            UserOptions.AddToCart(id,int.Parse(HttpContext.Session.GetString("UserID")));
 
             
 
-            //Session["user"] = 1;
+            
+
+          
 
 
             ViewBag.CurrentBook = DBBooks.products.Where(p => p.id == id).First();
