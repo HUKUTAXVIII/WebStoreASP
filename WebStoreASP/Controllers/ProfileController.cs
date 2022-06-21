@@ -93,7 +93,7 @@ public static class UserOptions
         string sql = $"INSERT INTO `cart`(`user_id`, `product_id`) VALUES ('{user_id}','{book_id}');";
         MySqlCommand cmd = new MySqlCommand(sql, conn);
         cmd.ExecuteNonQuery();
-
+        
         conn.Close();
     }
     public static void GetCart() {

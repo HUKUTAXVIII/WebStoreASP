@@ -7,36 +7,23 @@
     var authors = (List<Author>)ViewBag.Authors;
     var genres = (List<Genre>)ViewBag.Genres;
     var publishers = (List<Publisher>)ViewBag.Publishers;
+    var categories = (List<Category>)ViewBag.Categories;
 
     var covers = (List<Cover>)ViewBag.Covers;
 
+    
 
+
+    var aus = (List<string>)ViewBag.Aus;
+    var cat = (List<string>)ViewBag.Cat;
+    var gen = (List<string>)ViewBag.Gen;
+    var pub = (List<string>)ViewBag.Pub;
 
 
 }
+            
 
-@*<div class="products">
 
-    @foreach (var item in prod)
-    {
-    <div class="product">
-        <h2>
-            @item.name
-        </h2>
-        <br/>
-        <code>
-            @item.category_id
-        </code>
-        <hr/>
-        <p>
-            @item.price
-        </p>
-
-    </div>
-
-    }
-</div>
-*@
             <form id="form"> 
                 <input type="search" id="query" name="q" placeholder="Search...">
                 <button>Search</button>
@@ -45,24 +32,82 @@
             <main>
 
             <div class="sidesort">
-                <div class="authors">
-                    @foreach(var author in authors){
-                        <div class="item">@author.name</div>
-                
-                    }
-                </div>
-                <div class="publishers">
-                    @foreach(var publisher in publishers){
-                        <div class="item">@publisher.name</div>
-                
-                    }
-                </div>
+                    <form method="post">
+                        <div class="authors">
+                                @foreach(var item in categories){
+                                    <div>
+                                        @if (cat.Any(id => id == item.id.ToString())) { 
+                                            <input type="checkbox" name="category[]" class="item" value="@item.id" checked/>
+                                        }
+                                        else{
+                                            <input type="checkbox" name="category[]" class="item" value="@item.id"/>    
+                                        }
+                                        <label for="category[]">@item.name  (@prod.Where(p=>p.category_id==item.id).Count())</label>
+                                    </div>
+                                }
+                        </div>
+
+                        <div class="authors">
+                                @foreach(var item in genres){
+                                    <div>
+                                        @if (gen.Any(id => id == item.id.ToString())) { 
+                                            <input type="checkbox" name="genre[]" class="item" value="@item.id" checked/>
+                                        }
+                                        else{
+                                            <input type="checkbox" name="genre[]" class="item" value="@item.id"/>   
+                                        }
+
+                                        <label for="genre[]">@item.name (@prod.Where(p=>p.genre_id==item.id).Count())</label>
+                                    </div>
+                                }
+                        </div>
+
+
+                        <div class="authors">
+                                @foreach(var item in authors){
+                                    <div>
+                                        @if (aus.Any(id => id == item.id.ToString())) { 
+                                             <input type="checkbox" name="author[]" class="item" value="@item.id" checked/>
+                                        }
+                                        else{
+                                             <input type="checkbox" name="author[]" class="item" value="@item.id"/>
+                                        }
+
+
+                                       
+                                        <label for="author[]">@item.name (@prod.Where(p=>p.author_id==item.id).Count())</label>
+                                    </div>
+                                }
+                        </div>
+
+                       <div class="authors">
+                                @foreach(var item in publishers){
+                                    <div>
+                                        @if (pub.Any(id => id == item.id.ToString())) { 
+                                             <input type="checkbox" name="publisher[]" class="item" value="@item.id" checked/>
+                                        }
+                                        else{
+                                             <input type="checkbox" name="publisher[]" class="item" value="@item.id"/>
+                                        }
+                                        
+                                        <label for="publisher[]">@item.name (@prod.Where(p=>p.publisher_id==item.id).Count())</label>
+                                    </div>
+                                }
+                        </div>
+                                <input type="submit" value="Choose"/>
+
+                   </form>
+                                </br> 
+                                <a asp-area="" asp-controller="Home" asp-action="Index">Cбросить</a>
             </div>    
 
-            <div class="books">
-                @foreach(var item in prod){
-                    <div class="book">
-                        @*<div class="cover"> </div>*@
+    @if (prod.Count != 0)
+    {
+        <div class="books">
+            @foreach (var item in prod)
+            {
+                <div class="book">
+                    @*<div class="cover"> </div>*@
                         <img alt="" src="@covers.Find(c=>item.cover_id==c.id).content" class="cover"/>
                         
                         <div class="name">@item.name</div>
@@ -78,5 +123,5 @@
                     </div>
                 }
             </div>
-
+        }
         </main>

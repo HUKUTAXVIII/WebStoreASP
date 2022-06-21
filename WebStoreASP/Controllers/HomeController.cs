@@ -379,6 +379,7 @@ namespace WebStoreASP.Controllers
 
         }
 
+        [HttpGet]
         public IActionResult Index(string q = "")
         {
             if (q == null) {
@@ -388,7 +389,46 @@ namespace WebStoreASP.Controllers
 
 
 
-            ViewBag.Products = DBBooks.products.Where(p => p.name.Contains(q)).ToList();
+            ViewBag.Products = DBBooks.products.Where(p => p.name.ToLower().Contains(q.ToLower())).ToList();
+            ViewBag.Categories = DBBooks.categories;
+            ViewBag.Genres = DBBooks.genres;
+            ViewBag.Authors = DBBooks.authors;
+            ViewBag.Covers = DBBooks.covers;
+            ViewBag.Publishers = DBBooks.publishers;
+
+            ViewBag.username = UserOptions.user.username;
+
+            ViewBag.Aus = new List<string>();
+            ViewBag.Cat = new List<string>();
+            ViewBag.Gen = new List<string>();
+            ViewBag.Pub = new List<string>();
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult Index(string[] category, string[] genre, string[] author, string[] publisher)
+        {
+
+
+            var data_a = author.ToList();
+            var data_c = category.ToList();
+            var data_g = genre.ToList();
+            var data_p = publisher.ToList();
+
+
+            ViewBag.Aus = data_a;
+            ViewBag.Cat = data_c;
+            ViewBag.Gen = data_g;
+            ViewBag.Pub = data_p;
+
+
+            ViewBag.Products = DBBooks.products
+                .Where((item)=>data_a.Any(a=>a==item.author_id.ToString()) || data_a.Count==0 )
+                .Where((item) => data_c.Any(c => c == item.category_id.ToString()) || data_c.Count == 0)
+                .Where((item) => data_g.Any(g => g == item.genre_id.ToString()) || data_g.Count == 0)
+                .Where((item) => data_p.Any(p => p == item.publisher_id.ToString()) || data_p.Count == 0).ToList();
             ViewBag.Categories = DBBooks.categories;
             ViewBag.Genres = DBBooks.genres;
             ViewBag.Authors = DBBooks.authors;
@@ -400,6 +440,8 @@ namespace WebStoreASP.Controllers
 
             return View();
         }
+
+
 
         [HttpGet]
         public IActionResult Book(int id)
