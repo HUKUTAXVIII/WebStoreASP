@@ -26,17 +26,18 @@
 }
             
 
-
-            <form id="form"> 
-                <input type="search" id="query" name="q" placeholder="Search...">
-                <button>Search</button>
-            </form>
-
+            <div  class="index-search">
+                <form id="form"> 
+                    <input type="search" id="query" name="q" placeholder="Поиск...">
+                    <button>Поиск</button>
+                </form>
+            </div>
             <main>
 
             <div class="sidesort">
                     <form method="post">
                         <div class="authors">
+                                <h4>Категории</h4>
                                 @foreach(var item in categories){
                                     <div>
                                         @if (cat.Any(id => id == item.id.ToString())) { 
@@ -51,6 +52,7 @@
                         </div>
 
                         <div class="authors">
+                                    <h4>Жанры</h4>
                                 @foreach(var item in genres){
                                     <div>
                                         @if (gen.Any(id => id == item.id.ToString())) { 
@@ -67,6 +69,7 @@
 
 
                         <div class="authors">
+                                        <h4>Авторы</h4>
                                 @foreach(var item in authors){
                                     <div>
                                         @if (aus.Any(id => id == item.id.ToString())) { 
@@ -84,6 +87,7 @@
                         </div>
 
                        <div class="authors">
+                                        <h4>Издатели</h4>
                                 @foreach(var item in publishers){
                                     <div>
                                         @if (pub.Any(id => id == item.id.ToString())) { 
@@ -117,7 +121,7 @@
                         <div class="author">@authors.Where(a=>a.id==@item.author_id).First().name</div>
                         <div class="publisher">@publishers.Where(p=>p.id==@item.publisher_id).First().name</div>
 
-                        <div class="price">@item.price</div>
+                        <div class="price">@item.price ₴</div>
 
 
                         <a  href="Home/Book?id=@item.id"  id="@item.id"  name="id" value="@item.id"><button class="book-order" >КУПИТЬ</button></a>

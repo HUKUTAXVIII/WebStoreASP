@@ -1,14 +1,14 @@
 ﻿.books {
     display: flex;
-    max-width: 1050px;
-    border: 1px solid black;
+    max-width: 1070px;
     flex-wrap: wrap;
+    padding-left:20px;
 }
 
 .book {
     width: 300px;
     height: 400px;
-    border: 1px solid black;
+    border: 0.5px solid black;
     margin: 10px;
     padding: 10px;
 }
@@ -30,12 +30,16 @@
     .book .author {
         display: block;
         margin-top: 10px;
+        font-weight: 100;
+        color: #2f2f2f;
         font-size: 16px;
     }
 
     .book .publisher {
         display: block;
         margin-top: 10px;
+        font-weight: 100;
+        color:#2f2f2f;
         font-size: 16px;
     }
 
@@ -43,7 +47,7 @@
         display: block;
         margin-top: 20px;
         font-size: 20px;
-        color: gray;
+        color: #000000;
     }
 
 .book-order {
@@ -51,7 +55,9 @@
     height: 50px;
     margin-top: 20px;
     text-align: center;
-    background-color: aqua;
+    background-color: #1c87c9;
+    color: #ffffff;
+    border:none;
 }
 
 
@@ -63,17 +69,27 @@ main {
 
 .sidesort {
     width: 300px;
-    border: 1px solid black;
+    
 }
 
 .authors {
-    border: 1px solid black;
+    border: 0.5px solid #808080;
+    padding:20px;
 }
 
     .authors div {
         display: block;
         font-size: 20px;
+        margin: 0px 0px;
+
     }
+
+    .authors label {
+        font-size:16px;
+        color:#282828;
+    }
+
+
 
 .publishers {
     border: 1px solid black;
@@ -82,4 +98,23 @@ main {
     .publishers .item {
         display: block;
         font-size: 20px;
+    }
+
+
+.index-search {
+    display:flex;
+    margin:50px auto;
+    width:fit-content;
+    
+}
+    .index-search input {
+        width:500px;
+
+    }
+    .index-search button {
+        border: none;
+        background-color: #1c87c9;
+        color: #ffffff;
+        height:32px;
+        padding-bottom:2px;
     }

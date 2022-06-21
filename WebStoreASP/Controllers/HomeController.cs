@@ -475,7 +475,7 @@ namespace WebStoreASP.Controllers
         public IActionResult Book(int id,int other=0)
         {
             ViewBag.username = HttpContext.Session.GetString("UserID");
-            //UserOptions.cart.Add(id);
+
 
             UserOptions.AddToCart(id,int.Parse(HttpContext.Session.GetString("UserID")));
 
@@ -487,6 +487,8 @@ namespace WebStoreASP.Controllers
 
 
             ViewBag.CurrentBook = DBBooks.products.Where(p => p.id == id).First();
+            
+
 
             ViewBag.Products = DBBooks.products;
             ViewBag.Categories = DBBooks.categories;
