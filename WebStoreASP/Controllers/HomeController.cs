@@ -476,9 +476,14 @@ namespace WebStoreASP.Controllers
         {
             ViewBag.username = HttpContext.Session.GetString("UserID");
 
-
-            UserOptions.AddToCart(id,int.Parse(HttpContext.Session.GetString("UserID")));
-
+            if (HttpContext.Session.GetString("UserID") == string.Empty)
+            {
+                return Redirect("../Profile/LogIn");
+            }
+            else
+            {
+                UserOptions.AddToCart(id, int.Parse(HttpContext.Session.GetString("UserID")));
+            }
             
 
             

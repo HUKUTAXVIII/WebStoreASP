@@ -9,7 +9,7 @@
     var authors = (List<Author>)ViewBag.Authors;
     var genres = (List<Genre>)ViewBag.Genres;
     var publishers = (List<Publisher>)ViewBag.Publishers;
-
+    var categories = (List<Category>)ViewBag.Categories;
     var covers = (List<Cover>)ViewBag.Covers;
 
     var Book = (Product)ViewBag.CurrentBook;
@@ -21,26 +21,42 @@
 
 
 
-<main>
-        <div class="current-book">
+
+        <div style=" display:block; width: 1000px; margin:50px auto;">
            
-            <img alt="" src="@covers.Find(c=>ID==c.id).content" class="cover-book"/>
+            <div style="display:flex; justify-content:space-between">
+            <img alt="" src="@covers.Find(c=>ID==c.id).content" style="display:inline-block; width:400px; height:auto;"/>
 
 
-            <div class="content-book">
-                <div class="info-book">
-                    @Book.name
-                </div>
+                <div style="margin-top:100px; margin-right:100px; font-size:20px; color:#737373; ">
+                    Название:<span style="color:#0a0a0a;"> @Book.name </span><br/><br/>
+                    Автор:<span style="color:#0a0a0a;"> @authors.Where(a=>a.id==@Book.author_id).First().name  </span><br/><br/>
+                    Категория: <span style="color:#0a0a0a;">@categories.Where(a=>a.id==@Book.category_id).First().name  </span><br/><br/>
+                    Жанр: <span style="color:#0a0a0a;">@genres.Where(a=>a.id==@Book.genre_id).First().name  </span><br/><br/>
+                    Издание: <span style="color:#0a0a0a;">@publishers.Where(p=>p.id==@Book.publisher_id).First().name  </span><br/><br/>
+                </br><br/>
+                Цена:  <span style="color:#0a0a0a;">@Book.price </span><br/>
                 <form method="post">
                     <input type="text" value="@Book.id" name="id" style="display:none;"></input>
-                    <button type="submit">В Корзину</button>
+                    <button type="submit"  style="background-color: #1c87c9; color:#ffffff; width:150px;">В Корзину</button>
                 </form>
+                </div>
+        
             </div>
-
+            <div class="book-description">
+                
+                <span style="font-size:20px; color:#737373;">
+                    Описание: 
+                </span>
+                <br/>
+                <span style="font-size:20px; color:#0a0a0a;">
+                    @Book.description
+                </span>
+            </div>
 
         </div>
         
 
 
-</main>
+
 

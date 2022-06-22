@@ -227,7 +227,7 @@ namespace WebStoreASP.Controllers
                 
 
 
-                return Redirect("/Home/Index");
+                return Redirect("/Profile/Profile");
             }
 
             return Redirect("/Home/LogIn");

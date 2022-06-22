@@ -1,18 +1,11 @@
-﻿main {
-    display:flex;
-    margin: 0 auto;
-    width: 1400px;
-}
-
-
-
+﻿
 
 
 
 .current-book {
-    display: flex;
+    display:block;
     width: 1400px;
-    justify-content: space-between;
+    margin-left:200px;
 }
 
     .cover-book {
