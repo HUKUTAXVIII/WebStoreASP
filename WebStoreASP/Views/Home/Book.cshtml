@@ -37,7 +37,7 @@
                     Жанр: <span style="color:#0a0a0a;">@genres.Where(a=>a.id==@Book.genre_id).First().name  </span><br/><br/>
                     Издание: <span style="color:#0a0a0a;">@publishers.Where(p=>p.id==@Book.publisher_id).First().name  </span><br/><br/>
                 </br><br/>
-                Цена:  <span style="color:#0a0a0a;">@Book.price </span><br/>
+                Цена:  <span style="color:#0a0a0a;">@Book.price ₴</span><br/>
                 <form method="post">
                     <input type="text" value="@Book.id" name="id" style="display:none;"></input>
                 @if (incart)

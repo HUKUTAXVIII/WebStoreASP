@@ -256,9 +256,9 @@ namespace WebStoreASP.Controllers
         {
             ViewBag.username = string.Empty;
             if (
-                (username.Length > 8 && username.Length < 16)&&
-                (name.Length > 8 && name.Length < 16) &&
-                (surname.Length > 8 && surname.Length < 16) &&
+                (username.Length > 4 && username.Length < 16)&&
+                (name.Length > 1 && name.Length < 16) &&
+                (surname.Length > 1 && surname.Length < 16) &&
                 (password.Length > 8 && password.Length < 16)&&
                 (confirm.Length > 8 && confirm.Length < 16)&&
                 (confirm==password)
