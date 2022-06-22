@@ -115,6 +115,7 @@
             {
                 <div class="book">
                     @*<div class="cover"> </div>*@
+                        <a  href="Home/Book?id=@item.id"  id="@item.id"  name="id" value="@item.id"><button class="book-order" >КУПИТЬ</button></a>
                         <img alt="" src="@covers.Find(c=>item.cover_id==c.id).content" class="cover"/>
                         
                         <div class="name">@item.name</div>
@@ -124,7 +125,6 @@
                         <div class="price">@item.price ₴</div>
 
 
-                        <a  href="Home/Book?id=@item.id"  id="@item.id"  name="id" value="@item.id"><button class="book-order" >КУПИТЬ</button></a>
 
 
                     </div>
