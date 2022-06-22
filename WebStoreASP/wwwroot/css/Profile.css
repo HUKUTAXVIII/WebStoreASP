@@ -2,6 +2,7 @@
     max-width: 500px;
     margin: 100px auto;
     border: 1px solid black;
+    padding:15px;
 }
 
 .info {
@@ -11,12 +12,27 @@
 
     .info p {
         margin: auto;
+        font-weight:700;
     }
 
 .container a {
     display: block;
-    width: 200px;
-    height: 40px;
-    background-color: antiquewhite;
-    text-align: center;
+    
 }
+
+
+
+.login-container {
+    max-width: 500px;
+    margin: 0px auto;
+    padding:15px;
+}
+    .login-container input {
+        width:100%;
+        margin-bottom:15px;
+    }
+    .login-container button {
+        background-color: #1c87c9;
+        color: #ffffff;
+        width:140px;
+    }

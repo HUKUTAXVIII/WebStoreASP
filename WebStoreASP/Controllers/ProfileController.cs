@@ -230,7 +230,7 @@ namespace WebStoreASP.Controllers
                 return Redirect("/Profile/Profile");
             }
 
-            return Redirect("/Home/LogIn");
+            return Redirect("/Profile/LogIn");
         }
 
 
@@ -285,7 +285,7 @@ namespace WebStoreASP.Controllers
                 ViewBag.username = string.Empty;
             }
 
-
+            ViewBag.Covers = DBBooks.covers;
 
 
             return View();
@@ -305,7 +305,7 @@ namespace WebStoreASP.Controllers
                 ViewBag.username = string.Empty;
             }
 
-
+            ViewBag.Covers = DBBooks.covers;
 
             //UserOptions.GetCart();
 
