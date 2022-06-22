@@ -207,6 +207,14 @@ namespace WebStoreASP.Controllers
         }
         public IActionResult Profile()
         {
+            if (HttpContext.Session.GetString("UserID") == null) {
+                return Redirect("../Profile/LogIn");
+            }
+            if (HttpContext.Session.GetString("UserID") == string.Empty)
+            {
+                return Redirect("../Profile/LogIn");
+            }
+
             User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
             ViewBag.username = user.username;
 
@@ -271,6 +279,16 @@ namespace WebStoreASP.Controllers
         [HttpGet]
         public IActionResult Cart() {
 
+            if (HttpContext.Session.GetString("UserID") == null)
+            {
+                return Redirect("../Profile/LogIn");
+            }
+            if (HttpContext.Session.GetString("UserID") == string.Empty)
+            {
+                return Redirect("../Profile/LogIn");
+            }
+
+
             if (HttpContext.Session.GetString("UserID") != string.Empty)
             {
                 ViewBag.username = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID"))).username;
@@ -294,6 +312,18 @@ namespace WebStoreASP.Controllers
         [HttpPost]
         public IActionResult Cart(int book_id)
         {
+
+            if (HttpContext.Session.GetString("UserID") == null)
+            {
+                return Redirect("../Profile/LogIn");
+            }
+            if (HttpContext.Session.GetString("UserID") == string.Empty)
+            {
+                return Redirect("../Profile/LogIn");
+            }
+
+
+
             if (HttpContext.Session.GetString("UserID") != string.Empty)
             {
                 ViewBag.username = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID"))).username;

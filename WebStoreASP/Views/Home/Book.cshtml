@@ -13,6 +13,8 @@
     var covers = (List<Cover>)ViewBag.Covers;
 
     var Book = (Product)ViewBag.CurrentBook;
+    bool incart = (bool)ViewBag.InCart;
+
 
     var ID = Book.cover_id;
 
@@ -38,7 +40,17 @@
                 Цена:  <span style="color:#0a0a0a;">@Book.price </span><br/>
                 <form method="post">
                     <input type="text" value="@Book.id" name="id" style="display:none;"></input>
-                    <button type="submit"  style="background-color: #1c87c9; color:#ffffff; width:150px;">В Корзину</button>
+                @if (incart)
+                {
+
+                   <a asp-area="" asp-controller="Profile" asp-action="Cart"> <button type="button"  style="background-color: #1c87c9; color:#ffffff; width:150px;">В Корзину</button> </a>
+                }
+                else
+                {
+                <button type="submit"  style="background-color: #1c87c9; color:#ffffff; width:150px;">Купить</button>
+                    
+
+                }
                 </form>
                 </div>
         

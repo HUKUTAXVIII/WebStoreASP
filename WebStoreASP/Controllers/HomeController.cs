@@ -329,11 +329,14 @@ public static class DBBooks
 
     public static void DeleteBook(int id) {
         conn.Open();
-        //SELECT * FROM `product` WHERE `id` = [id];
+        //DELETE FROM `cart` WHERE `product_id`=[id];
         MySqlCommand command = new MySqlCommand($"DELETE FROM `product` WHERE `id` = {id};", conn);
 
         command.ExecuteNonQuery();
 
+        command = new MySqlCommand($"DELETE FROM `cart` WHERE `product_id`={id};", conn);
+
+        command.ExecuteNonQuery();
 
         conn.Close();
         GetProduct();
@@ -461,6 +464,21 @@ namespace WebStoreASP.Controllers
             ViewBag.CurrentBook = DBBooks.products.Where(p=>p.id==id).First();
 
 
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    ViewBag.InCart = UserOptions.GetCart(int.Parse(HttpContext.Session.GetString("UserID"))).Any(i => i == id);
+                }
+                else {
+                    ViewBag.InCart = false;
+                }
+            }
+            else
+            {
+                ViewBag.InCart = false;
+            }
+
             ViewBag.Products = DBBooks.products;
             ViewBag.Categories = DBBooks.categories;
             ViewBag.Genres = DBBooks.genres;
@@ -484,11 +502,11 @@ namespace WebStoreASP.Controllers
             {
                 UserOptions.AddToCart(id, int.Parse(HttpContext.Session.GetString("UserID")));
             }
-            
 
-            
 
-          
+
+
+            ViewBag.InCart = UserOptions.GetCart(int.Parse(HttpContext.Session.GetString("UserID"))).Any(i => i == id);
 
 
             ViewBag.CurrentBook = DBBooks.products.Where(p => p.id == id).First();

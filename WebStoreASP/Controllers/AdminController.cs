@@ -22,11 +22,35 @@ namespace WebStoreASP.Controllers
         public IActionResult AddBook()
         {
 
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
+
+
+
             ViewBag.Categories = DBBooks.categories;
             ViewBag.Genres = DBBooks.genres;
             ViewBag.Authors = DBBooks.authors;
             ViewBag.Covers = DBBooks.covers;
             ViewBag.Publishers = DBBooks.publishers;
+
+
+
+
 
             return View();
         }
@@ -34,6 +58,11 @@ namespace WebStoreASP.Controllers
         [HttpPost]
         public IActionResult AddBook(IFormFile file,string name,string price,string description,int author,int publisher,int category,int genre)
         {
+            ViewBag.Categories = DBBooks.categories;
+            ViewBag.Genres = DBBooks.genres;
+            ViewBag.Authors = DBBooks.authors;
+            ViewBag.Covers = DBBooks.covers;
+            ViewBag.Publishers = DBBooks.publishers;
 
             if (file != null)
             {
@@ -50,6 +79,13 @@ namespace WebStoreASP.Controllers
                 //    DBBooks.AddCover(file.FileName, "jpg", content);
                 //}
 
+                if (file.Length >= 50000) {
+                    return View();
+                }
+                if (new FileInfo(file.FileName).Extension != ".jpg") {
+                    return View();
+                }
+
                 string uploads = Path.Combine("wwwroot/Files");
                 if (file.Length > 0)
                 {
@@ -61,7 +97,10 @@ namespace WebStoreASP.Controllers
 
                     var data = System.IO.File.ReadAllBytes(filePath);
 
+                    
+
                     DBBooks.AddCover(file.FileName, "jpg", data);
+
                     DBBooks.AddBook(name,float.Parse(price),description,author,publisher,genre,category,DBBooks.covers.Last().id);
 
                     System.IO.File.Delete(filePath);
@@ -71,12 +110,24 @@ namespace WebStoreASP.Controllers
 
 
             }
+                if (HttpContext.Session.GetString("UserID") != null)
+                {
+                    if (HttpContext.Session.GetString("UserID") != string.Empty)
+                    {
+                        User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                        ViewBag.username = user.username;
+                    }
+                    else
+                    {
+                        ViewBag.username = string.Empty;
+                    }
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
 
-                ViewBag.Categories = DBBooks.categories;
-                ViewBag.Genres = DBBooks.genres;
-                ViewBag.Authors = DBBooks.authors;
-                ViewBag.Covers = DBBooks.covers;
-                ViewBag.Publishers = DBBooks.publishers;
+                
 
             return View();
         }
@@ -84,6 +135,25 @@ namespace WebStoreASP.Controllers
         [HttpGet]
         public IActionResult DeleteBook()
         {
+
+
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
             ViewBag.Products = DBBooks.products;
             ViewBag.Categories = DBBooks.categories;
             ViewBag.Genres = DBBooks.genres;
@@ -102,6 +172,22 @@ namespace WebStoreASP.Controllers
             DBBooks.DeleteBook(book_id);
             DBBooks.DeleteCover(CoverId);
 
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
 
 
             ViewBag.Products = DBBooks.products;
@@ -120,6 +206,25 @@ namespace WebStoreASP.Controllers
         [HttpGet]
         public IActionResult Menu()
         {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else {
+                ViewBag.username = string.Empty;    
+            }
+
+            
+
+
 
             return View();
         }
@@ -127,13 +232,46 @@ namespace WebStoreASP.Controllers
         [HttpGet]
         public IActionResult AddAuthor()
         {
-
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
             return View();
         }
 
         [HttpPost]
         public IActionResult AddAuthor(string name)
         {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
+
             DBBooks.AddAuthor(name);
             return View();
         }
@@ -141,7 +279,27 @@ namespace WebStoreASP.Controllers
         [HttpPost]
         public IActionResult DeleteAuthor(int id)
         {
-            DBBooks.DeleteAuthor(id);
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
+            if (DBBooks.products.Where(p => p.author_id == id).Count() == 0)
+            {
+                DBBooks.DeleteAuthor(id);
+            }
             ViewBag.Authors = DBBooks.authors;
             return View();
         }
@@ -149,6 +307,25 @@ namespace WebStoreASP.Controllers
         [HttpGet]
         public IActionResult DeleteAuthor()
         {
+
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
+
             ViewBag.Authors = DBBooks.authors;
             return View();
         }
@@ -159,6 +336,23 @@ namespace WebStoreASP.Controllers
         [HttpGet]
         public IActionResult AddPublisher()
         {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
 
             return View();
         }
@@ -166,6 +360,25 @@ namespace WebStoreASP.Controllers
         [HttpPost]
         public IActionResult AddPublisher(string name)
         {
+
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
+
             DBBooks.AddPublisher(name);
             return View();
         }
@@ -173,7 +386,29 @@ namespace WebStoreASP.Controllers
         [HttpPost]
         public IActionResult DeletePublisher(int id)
         {
-            DBBooks.DeletePublisher(id);
+
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
+
+            if (DBBooks.products.Where(p => p.publisher_id == id).Count() == 0)
+            {
+                DBBooks.DeletePublisher(id);
+            }
             ViewBag.Publishers = DBBooks.publishers;
             return View();
         }
@@ -182,6 +417,26 @@ namespace WebStoreASP.Controllers
         [HttpGet]
         public IActionResult DeletePublisher()
         {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
+
+
+
             ViewBag.Publishers = DBBooks.publishers;
             return View();
         }
@@ -192,13 +447,44 @@ namespace WebStoreASP.Controllers
         [HttpGet]
         public IActionResult AddCategory()
         {
-
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
             return View();
         }
 
         [HttpPost]
         public IActionResult AddCategory(string name)
         {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
             DBBooks.AddCategory(name);
             return View();
         }
@@ -206,7 +492,30 @@ namespace WebStoreASP.Controllers
         [HttpPost]
         public IActionResult DeleteCategory(int id)
         {
-            DBBooks.DeleteCategory(id);
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
+
+            if (DBBooks.products.Where(p => p.category_id == id).Count() == 0)
+            {
+                DBBooks.DeleteCategory(id);
+            }
+
+
             ViewBag.Categories = DBBooks.categories;
             return View();
         }
@@ -215,6 +524,23 @@ namespace WebStoreASP.Controllers
         [HttpGet]
         public IActionResult DeleteCategory()
         {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
             ViewBag.Categories = DBBooks.categories;
             return View();
         }
@@ -225,12 +551,46 @@ namespace WebStoreASP.Controllers
         public IActionResult AddGenre()
         {
 
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
             return View();
         }
 
         [HttpPost]
         public IActionResult AddGenre(string name)
         {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
             DBBooks.AddGenre(name);
             return View();
         }
@@ -238,7 +598,28 @@ namespace WebStoreASP.Controllers
         [HttpPost]
         public IActionResult DeleteGenre(int id)
         {
-            DBBooks.DeleteGenre(id);
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
+            if (DBBooks.products.Where(p => p.genre_id == id).Count() == 0)
+            {
+                DBBooks.DeleteGenre(id);
+            }
+
             ViewBag.Genres = DBBooks.genres;
             return View();
         }
@@ -247,6 +628,24 @@ namespace WebStoreASP.Controllers
         [HttpGet]
         public IActionResult DeleteGenre()
         {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                if (HttpContext.Session.GetString("UserID") != string.Empty)
+                {
+                    User user = UserOptions.GetUser(int.Parse(HttpContext.Session.GetString("UserID")));
+                    ViewBag.username = user.username;
+                }
+                else
+                {
+                    ViewBag.username = string.Empty;
+                }
+            }
+            else
+            {
+                ViewBag.username = string.Empty;
+            }
+
+
             ViewBag.Genres = DBBooks.genres;
             return View();
         }
