@@ -286,6 +286,7 @@ namespace WebStoreASP.Controllers
             }
 
             ViewBag.Covers = DBBooks.covers;
+            ViewBag.Authors = DBBooks.authors;
 
 
             return View();
@@ -306,6 +307,7 @@ namespace WebStoreASP.Controllers
             }
 
             ViewBag.Covers = DBBooks.covers;
+            ViewBag.Authors = DBBooks.authors;
 
             //UserOptions.GetCart();
 

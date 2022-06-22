@@ -1,0 +1,76 @@
+﻿body {
+}
+
+
+.admin-container {
+
+    display:flex;
+    margin:50px auto;
+    width:700px;
+    padding:15px;
+    border:1px solid black;
+}
+    .admin-container form {
+        width: 100%;
+    }
+
+    .admin-container select {
+        width:100%;
+
+    }
+.admin-container input {
+    width: 100%;
+}
+
+
+.admin-menu {
+    margin: 50px auto;
+    width:fit-content;
+}
+
+    .admin-menu a {
+        display:inline-block;
+        width: 200px;
+        height: 40px;
+        margin:10px;
+        background-color: #1c87c9;
+        color: #ffffff;
+        text-align:center;
+        border:1px solid #000000;
+        text-decoration:none;
+        font-size:20px;
+        padding-top:3px;
+    }
+
+.admin-add {
+    margin: 150px auto;
+    width: fit-content;
+}
+
+
+    .admin-add button {
+        margin-top: 20px;
+        background-color: #1c87c9;
+        color: #ffffff;
+    }
+    .admin-add input {
+        width: 300px;
+    }
+    .admin-add label {
+        font-weight:500;
+        font-size:20px;
+    }
+
+.admin-delete {
+    display:flex;
+    margin: 10px auto;
+    width: fit-content;
+    width:300px;
+    padding:15px;
+    border:1px solid #000000;
+    justify-content:space-between;
+}
+    .admin-delete label {
+        font-weight: 400;
+        font-size: 20px;
+    }

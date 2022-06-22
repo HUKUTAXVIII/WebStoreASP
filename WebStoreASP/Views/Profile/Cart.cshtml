@@ -10,8 +10,8 @@
 
 
     List<Cover> covers = (List<Cover>)ViewBag.Covers;
+    List<Author> authors = (List<Author>)ViewBag.Authors;
 
-    
 
     float Total = 0.0f;
 
@@ -40,7 +40,7 @@
 
                 <div class="info-box">
                     <div class="name-box">@prod.name</div>
-                    <div class="author-box">@prod.author_id</div>
+                    <div class="author-box">@authors.Find(i=>i.id==prod.author_id).name</div>
                 </div>
                 <div class="price-box">@prod.price ₴</div>
 

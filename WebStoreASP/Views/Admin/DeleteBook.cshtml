@@ -14,6 +14,10 @@
     var publishers = (List<Publisher>)ViewBag.Publishers;
 
     var covers = (List<Cover>)ViewBag.Covers;
+
+
+
+
 }
 
 
@@ -27,15 +31,15 @@
             @foreach(var prod in products){
 
             <div class="card-box">
-                <div class="cover-box"> </div>
+                <img alt="" src="@covers.Find(c=>prod.cover_id==c.id).content" class="cover-box"/>
                 <div class="info-box">
                     <div class="name-box">@prod.name</div>
-                    <div class="author-box">@prod.author_id</div>
+                    <div class="author-box">@authors.Find(i=>i.id==prod.author_id).name</div>
                 </div>
-                <div class="price-box">@prod.price</div>
+                <div class="price-box">@prod.price ₴</div>
                 <form method="post">
                     <input type="text" name="book_id" value="@prod.id" style="display:none;"></input>
-                    <button type="submit">X</button>
+                    <button style="border:none;"><img src="https://cdn1.iconfinder.com/data/icons/basic-ui-elements-coloricon/21/19-512.png" style="width:30px; height:30px;" /></button>
                 </form>
 
             </div>
